@@ -1,0 +1,30 @@
+select member_id,member_name,city,membership_status from  lms_members where membership_status="permanent";
+select l.member_id,l.member_name from lms_members l join lms_book_details m on ( m.book_code="bl000002");
+
+ select book_code,book_title,author from lms_book_details where author like 'p%';
+ 
+select count(category) as 'no.of books' from lms_book_details where category="java";
+ 
+select count(publication) as  'no. of books' from lms_book_details where publication="Prentice Hall";
+ 
+select l.book_code,l.book_title from lms_book_details l join lms_book_issue m on (l.book_code=m.book_code) where m.date_issue = '2012-04-01';
+ 
+select member_id,member_name,date_register,date_expire from lms_members where date_expire<'2013-04-01';
+
+select member_id,member_name,date_register,membership_status from lms_members where date_register<'2012-03-01' and membership_status = "temporary";
+
+select member_id,member_name  name from lms_members where city="chennai" or city="delhi";
+
+select concat(book_title,"is","written","by",author) names from lms_book_details;
+
+select avg(price) as 'average price' from lms_book_details where category="java";
+
+select supplier_id,supplier_name,email from lms_suppliers_details where email like '%gmail%';
+
+select supplier_id,supplier_name,coalesce(contact,email,address) contactdetails from lms_suppliers_details; 
+
+SELECT supplier_id, supplier_name, contact, IF(contact IS NULL, 'No', 'Yes') phonenumavailable FROM lms_suppliers_details;
+
+select b.member_id,b.member_name,b.membership_status,sum(f.fine_amount) from lms_members b join lms_book_issue l on(b.member_id=l.member_id) join lms_fine_details f on(l.fine_range=f.fine_range)group by member_id;
+
+select b.member_id,b.member_name,c.book_code,c.book_title from lms_members b join lms_book_issue f on(b.member_id = f.member_id) join lms_book_details c on(f.book_code=c.book_code);

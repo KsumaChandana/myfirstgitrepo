@@ -1,0 +1,110 @@
+select b.manager_id,b.manager_name,f.fine_range,f.fine_amount from lms_members b join lms_book_issue c on(b.manager_id=c.manager_id)join lms_fine_details f on(c.fine_range=f.fine_range)where f.fine_range<100;
+
+select employee_id,manager_id,department_id from employees where (manager_id,department_id) in (select manager_id,department_id from employees where employee_id in (199,174)) and employee_id not in (199,174);
+
+select employee_id,manager_id,department_id from employees where manager_id in (select manager_id from employees where employee_id in (174,199)) and department_id in (select department_id from employees where employee_id in (174,199))
+and employee_id not in (174,199);
+
+select employee_id,last_name, (case when department_id = (select department_id from departments where location_id = 1800) then 'canada' else 'usa' end) location from employees;
+
+select employee_id,last_name from employees e order by (select department_name from departments d where e.department_id= d.department_id);
+
+select employee_id,last_name, (case when department_id = (select department_id from departments where location_id = 1800) then 'canada' else 'usa' end) location from employees;
+
+select last_name,salary,department_id from employees abc where salary>(select avg(salary) from employees where department_id=abc.department_id);
+
+select e.employee_id,e.last_name,e.job_id from employees e where 2<=(select count(*) from job_history where employee_id=e.employee_id);
+
+select employee_id,last_name,job_id,department_id from employees e where exists(select last_name from employees where manager_id=e.employee_id);
+
+select employee_id,last_name,job_id,department_id from employees e where not exists(select last_name from employees where manager_id=e.employee_id);
+
+use hr;
+
+update employees e set department_id=(select department_id from departments  where department_id=e.department_id);
+
+select last_name,department_id,salary from employees where (department_id,salary) in (select department_id,salary from employees where commission_pct is not null);
+
+select e.last_name,d.department_name,e.salary from employees e join departments d on (e.employee_id=d.department_id) where (e.salary,e.commission_pct) in (select e.salary,e.commission_pct from employees e where d.location_id=1700);
+
+select last_name,hire_date,salary from employees where salary = (select salary from employees where last_name = 'kochhar') and last_name not like 'kochhar'; 
+
+select salary from employees where salary > all (select salary from employees where job_id="SA_MAN") order by salary desc;
+
+select employee_id,last_name,department_id from employees where department_id in (select department_id from departments where location_id in (select location_id from locations where city like 't%'));
+
+select last_name ename,salary,department_id deptno,avg(salary) from employees where salary> (select avg(salary) from employees) group by department_id;
+
+select e.last_name from employees e where not exists (select manager_id from employees c where e.employee_id=c.manager_id);
+
+select last_name from employees where salary < (select avg(salary) from employees)group by department_id;
+
+select e.last_name from employees e where exists (select c.last_name from employees c where e.department_id = c.department_id and e.hire_date > c.hire_date and e.salary > c.salary);
+
+select e.employee_id,e.last_name,d.department_name as department from employees e where d.department_name=(select d.department_name from departments d ) order by department_name;
+
+create view view_employees as select  last_name,first_name,hire_date from employees;
+
+show tables;
+
+desc view_employees;
+
+select * from view_employees;
+
+create view view_employee as select e.last_name,e.first_name,e.salary,d.department_name from employees e join departments d where e.department_id=d.department_id; 
+
+create view view_employees_details as select e.last_name,e.first_name,e1.last_name as name,e1.first_name as name1 from employees e join employees e1 where e.employee_id=e1.manager_id; 
+
+create table details(employee_id int primary key,employee_name varchar(50),employee_dept varchar(50),employee_sal int);
+
+create index index_details on details(employee_name);
+
+desc details;
+
+alter table details drop index index_details;
+
+desc details;
+
+create unique index index_details on details(employee_id);
+
+desc details;
+
+create view detail_course as select course_code,course_name,course_duration  from  course_info where course_code >167;
+
+desc detali_course;
+
+create view detail_student as select c.course_code,c.course_name,d.first_name,d.last_name from course_info c join student_info d;
+
+desc detail_student;
+
+drop view detail_student;
+
+create index index_course on course_info(course_description);
+
+alter table course_info drop index index_course;
+
+create unique index index_course on course_info(course_description);
+
+create view detail_employee as select employee_id,concat(first_name,last_name) employee,department_id from employees;
+
+desc detail_employee;
+
+select concat(first_name,last_name) employee,department_id from detail_empoyee;
+
+desc detail_employee;
+
+select  employee,department_id from detail_employee;
+
+create view dept50 as select employee_id empno,last_name employee,department_id deptno from employees where department_id=50;
+
+select * from dept50;
+
+desc dept50;
+
+create view dept50 as select employee_id empno,last_name employee,department_id deptno from employees where department_id=50;
+
+drop view  dept50;
+
+create view dept50 as select employee_id empno,last_name employee,department_id deptno from employees where department_id=50;
+
+

@@ -1,0 +1,97 @@
+create table offices(officecode varchar(10) primary key,city varchar(50),phone varchar(50),addressline varchar(50),state varchar(14),country varchar(20),postalcode varchar(15));
+  
+create table employee(employeenumber int primary key,lastname varchar(50),firstname varchar(50),officecode varchar(10) , constraint officeCode_key foreign key (officecode) references offices(officecode));
+
+drop table products; 
+
+create table products(productcode varchar(50) primary key,productname varchar(50),productvendor varchar(50),productdescription varchar(50) unique);
+ 
+create table course_info ( course_code varchar(10) primary key,course_name varchar(20) not null,course_description varchar(25),course_start_date date,course_duration int,no_of_participants int,course_type char(3));
+
+create table student_info (student_id varchar(10) primary key,first_name varchar(20),last_name varchar(25),address varchar(150));
+
+ create table student_courses(student_id varchar(10),course_code varchar(10),constraint student_key foreign key (student_id) references student_info(student_id),constraint course_key foreign key (course_code)references course_info(course_code));
+ 
+drop table student_courses;
+
+ create table student_courses(student_id varchar(10),course_code varchar(10),constraint student_key foreign key (student_id) references student_info(student_id),constraint course_key foreign key (course_code)references course_info(course_code));
+
+ create table suppliers(supplier_id int not null primary key, supplier_name varchar(50) not null,address varchar(50),city varchar(50),state varchar(25),zip_code varchar(10));
+
+ create table customers(customer_id int not null,customer_name varchar(50) not null,address varchar(50),city varchar(50),state varchar(25),zip_code varchar(10),constraint customer_key primary key (customer_id));
+ 
+insert into course_info values("cd01","suma","fsd",'1997-06-4',3,4,'orl'); 
+
+ insert into course_info values("167","chandana","share",'1999-08-11',4,5,'oel');
+
+ insert into student_info values("116","chandana","konduru","nirmala nagar"); 
+
+ insert into student_info values("124","bhavitha","varma","gandhi nagar"); 
+
+ insert into course_info values("176","manjula","point",'2000-09-20',8,9,'leo');
+ 
+insert into student_info values("111","manasa","latha","sr nagar"); 
+
+ insert into student_info values("167","manasa","latha","sr nagar"); 
+ 
+ select s.student_id,s.first_name,s.last_name,s.address,c.course_code from student_info s join student_courses m on (s.student_id=m.student_id) join course_info c on  (c.course_code="167");
+
+  insert into student_courses values("111","167");
+
+  select s.student_id,s.first_name,s.last_name,s.address,c.course_code from student_info s join student_courses m on (s.student_id=m.student_id) join course_info c on  (c.course_code="167");
+
+drop table course_info;
+
+create table course_info1 (course_code int,course varchar(20),course_description varchar(20)); 
+
+alter table course_info1 add column course_duration int, add column no_of_par char(3),add column couurse_type char(3);
+
+alter table course_info1 modify course_code varchar(50);
+
+alter table course_info1 modify course varchar(200);
+
+rename table course_info1 to cms_course_info;
+
+truncate table cms_course_info;
+
+ drop table cms_course_info;
+
+ create table course_info1 (course_code int,course_name varchar(50),course_description varchar(50),course_state_date date);
+
+ insert into course_info1 values(343,"java programming","basics of java",'2012-12-12');
+ insert into course_info1 values(167,"c programming","basics of c",'2012-11-11');
+
+ insert into course_info1 values(347,"rdbms","basics of rdbms",null);
+
+ insert into course_info1 values(106,"oracle","oracle sql",'2011-03-11');
+ 
+delete from course_info1 where course_name='rdbms';
+
+ update course_info1 set course_name="mysql" ,course_description ="mysql" where course_code="106";
+
+select * from course_info;
+start transaction;
+
+delete from course_info where course_code="176";
+
+  insert into course_info values("166","manju"," save point",'2000-09-20',8,9,'lol');
+ 
+ select * from course_info;
+  
+savepoint sa;
+
+  delete from course_info where course_code="166";
+
+  rollback;
+
+  select * from course_info;
+ 
+ delete from course_info where course_code="166";
+ 
+ savepoint ss;
+
+  rollback;
+
+  select * from course_info;
+
+ create user suma identified by 'pass@123'; 
